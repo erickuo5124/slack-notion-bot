@@ -1,0 +1,9 @@
+.title{
+  color: #39b329;
+}
+
+.btn:hover{
+  box-shadow: 
+    0 0 10px aliceblue,
+    0 0 18px #39FF14;
+}

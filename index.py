@@ -15,7 +15,7 @@ def post():
   PAGE_ID = request.args.get('id')
   if PAGE_ID != '':
     msg = get_post_msg(PAGE_ID)
-    sl.send_err(msg)
+    sl.post_slack(msg)
     no.update_status(PAGE_ID)
     no.create_page('c20f4fd6438f4c75aa3e06096b9c8b23')
   return redirect(url_for('index'))

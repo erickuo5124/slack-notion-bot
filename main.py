@@ -25,6 +25,7 @@ except:
 sections = []
 error = ''
 for block in children['results']:
+  if 'child_database' not in block : break
   topic = block['child_database']['title']
   block_id = block['id']
   db = no.get_database(block_id)['results'][0]['properties']

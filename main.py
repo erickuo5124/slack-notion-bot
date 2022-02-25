@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import notion as no
 import slack as sl
+import discord as dc
 
 load_dotenv()
 DATABASE_ID = os.getenv('NOTION_DATABASE_ID')
@@ -27,6 +28,7 @@ def get_post_page():
 def get_post_msg(PAGE_ID):
   children = no.get_children(PAGE_ID)
   sections = []
+  dc_secs = []
   error = ''
   for block in children['results']:
     if 'child_database' not in block : break
@@ -38,24 +40,29 @@ def get_post_msg(PAGE_ID):
       link = db['Link']['rich_text'][0]['text']['content']
       content = db['Content']['rich_text'][0]['text']['content']
       sec = sl.create_sections(topic, title, link, content)
+      dc_sec = dc.create_sections(topic, title, link, content)
       sections.extend([*sec])
+      dc_secs.append(dc_sec)
     except:
       error = '有人沒寫日報！'
       sl.send_err(error)
       sys.exit(1)
   msg = sl.fill_message(sections[:-1])
-  return msg
+  dc_msg = dc.fill_message(dc_secs)
+  return msg, dc_msg
 
 if __name__ == '__main__':
   PAGE_ID, name = get_post_page()
   if PAGE_ID != '' and len(sys.argv) < 2:
-    msg = get_post_msg(PAGE_ID)
+    msg, dc_msg = get_post_msg(PAGE_ID)
     sl.post_slack(msg)
     no.update_status(PAGE_ID)
     no.create_page('c20f4fd6438f4c75aa3e06096b9c8b23')
+    dc.post_discord(dc_msg)
   elif PAGE_ID != '' and sys.argv[1] == 'test':
-    msg = get_post_msg(PAGE_ID)
+    msg, dc_msg = get_post_msg(PAGE_ID)
     sl.send_err(msg)
+    print(dc_msg)
   else:
     sys.exit(1)
   sys.exit(0)

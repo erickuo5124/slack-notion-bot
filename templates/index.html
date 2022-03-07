@@ -30,7 +30,10 @@
     </div>
     <div class="alert alert-dark w-100 d-flex justify-content-center previewBox" role="alert" data-bs-toggle="modal"
       data-bs-target="#previewModal">
-      {{info}}（點擊預覽）
+      {{info}}
+      {% if PAGE_ID %}
+        （點擊預覽）
+      {% endif %}
     </div>
     <div class="container mt-3 w-100 d-flex justify-content-between">
       <form action="/post?id={{PAGE_ID}}" method="post">

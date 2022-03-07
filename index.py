@@ -9,7 +9,10 @@ app = Flask(__name__)
 @app.route("/")
 def index():
   PAGE_ID, name = get_post_page()
-  return render_template('index.html', info=name, PAGE_ID=PAGE_ID)
+  sl_msg = ''
+  if PAGE_ID != '':
+    sl_msg, _ = get_post_msg(PAGE_ID)
+  return render_template('index.html', info=name, PAGE_ID=PAGE_ID, preview_msg=sl_msg)
 
 @app.route("/post", methods=['POST'])
 def post():

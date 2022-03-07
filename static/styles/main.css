@@ -7,3 +7,13 @@
     0 0 10px aliceblue,
     0 0 18px #39FF14;
 }
+
+div.previewBox{
+  cursor: pointer;
+}
+
+div.previewBox:hover{
+  box-shadow: 
+    0 0 10px aliceblue,
+    0 0 18px #4b80cf;
+}

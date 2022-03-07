@@ -28,8 +28,9 @@
         <li>日報頁面是使用 template 完成，且沒有新增任何 block</li>
       </ul>
     </div>
-    <div class="alert alert-dark w-100 d-flex justify-content-center" role="alert">
-      {{info}}
+    <div class="alert alert-dark w-100 d-flex justify-content-center previewBox" role="alert" data-bs-toggle="modal"
+      data-bs-target="#previewModal">
+      {{info}}（點擊預覽）
     </div>
     <div class="container mt-3 w-100 d-flex justify-content-between">
       <form action="/post?id={{PAGE_ID}}" method="post">
@@ -38,6 +39,26 @@
       <form action="/test?id={{PAGE_ID}}" method="post">
         <button class="btn btn-secondary" type="submit">測試</button>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-black" id="previewModalLabel">日報預覽</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-black">
+          {% for block in preview_msg.blocks %}
+            {% if block.text %}
+              <div>{{block.text.text}}</div>
+              <br />
+            {% endif %}
+          {% endfor%}
+        </div>
+      </div>
     </div>
   </div>
 
